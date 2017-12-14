@@ -94,8 +94,8 @@ class LivemeAction(BaseAction):
                 data["country_name"] = country['countryName']
 
             myCollectLivemeTmpModel().add(all_liver)
-        # myCollectLivemeTmpModel().copyDataToTable("my_collect")
-        # myCollectLivemeTmpModel().clearTable()
+        myCollectLivemeTmpModel().copyDataToTable("my_collect")
+        myCollectLivemeTmpModel().clearTable()
 
     # 入口 获取主播信息
     def startSaveLiverInfo(self):
