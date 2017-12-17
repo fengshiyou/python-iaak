@@ -83,9 +83,9 @@ class model(object):
     # 连贯操作,组装查询条件 where
     def where(self, fields, tmp, value):
         if (self.query_where != 1):
-            self.query_where = self.query_where + " AND " + fields + " " + tmp + " " + str(value)
+            self.query_where = self.query_where + " AND " + fields + " " + tmp + " '" + str(value) + "'"
         else:
-            self.query_where = fields + " " + tmp + " " + str(value)
+            self.query_where = fields + " " + tmp + " '" + str(value) + "'"
         return self
 
     # 连贯操作,组装查询条件 orwhere
@@ -189,12 +189,16 @@ class model(object):
         # 如果有排序
         if self.order_by:
             sql = sql + " ORDER BY " + self.order_by[:-1]
-        # 如果有跳过
-        if self.skipN:
-            sql = sql + " LIMIT " + str(self.skipN) + ","
+
+
         # 如果有限制条数
         if self.takeN:
-            sql = sql + " LIMIT " + str(self.takeN)
+            # 如果有跳过
+            if self.skipN:
+                sql = sql + " LIMIT " + str(self.skipN) + ","
+                sql = sql  + str(self.takeN)
+            else:
+                sql = sql + " LIMIT " + str(self.takeN)
 
         if (self._do(sql)):
             result = self.rows2array(self._cursor.fetchall())
@@ -280,16 +284,18 @@ class model(object):
     ############################### 异常相关 ###############################
     # mysql连接时的错误信息 捕获到的错误信息，具体处理方法由子类重写
     def connectError(self):
-        time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-        print time
+        now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        print now
+        print self.error
         # @todo 向上传递异常待补充 抛出异常，子类可以重写
-        raise Exception("数据库连接错误，错误信息记录在self.error中。子类重写“connectError方法来处理或记录”")
+        raise Exception("数据库连接错误，错误信息记录在self.error中"+str(self.error)+"。子类重写“connectError方法来处理或记录”")
 
     # 执行sql语句时的错误信息 捕获到的错误信息，具体处理方法由子类重写
     def doError(self):
-        time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-        print time
+        now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        print now
         # @todo 向上传递异常待补充 抛出异常，子类可以重写
-        raise Exception("数据库连接错误，错误信息记录在self.error中。子类重写“connectError方法来处理或记录”")
+        print
+        raise Exception("mysql执行错误，错误信息记录在self.error中"+str(self.error)+"。子类重写“connectError方法来处理或记录”")
 
 ############################### 异常结束 ###############################

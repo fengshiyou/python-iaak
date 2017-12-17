@@ -1,7 +1,9 @@
 # -*- coding: UTF-8 -*-
 import os
 from BaseModel import BaseModel
-os.sys.path.append("../config")
+# 获取当前执行该文件的脚本的相对路径
+dir = os.path.dirname(__file__)
+os.sys.path.append(os.path.join(dir, "../config"))
 
 class test(BaseModel):
     def __init__(self):

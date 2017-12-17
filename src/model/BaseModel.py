@@ -1,13 +1,19 @@
 # -*- coding: UTF-8 -*-
 # 设置连接信息，配置，隐藏字段等 以及一些其他的可封装的方法
 import os
-# 基础配置路径
-os.sys.path.append("../config")
+
+# 获取当前执行该文件的脚本的相对路径
+dir = os.path.dirname(__file__)
+os.sys.path.append(os.path.join(dir, "../config"))
+
 # 导入基础配置
 import config
 
 # 底层model路径
-os.sys.path.append("../../base")
+# 获取当前执行该文件的脚本的相对路径
+dir = os.path.dirname(__file__)
+os.sys.path.append(os.path.join(dir, "../../base"))
+
 # 导入底层model
 from model import model
 

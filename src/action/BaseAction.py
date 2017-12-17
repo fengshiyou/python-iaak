@@ -1,7 +1,9 @@
 # -*- coding: UTF-8 -*-
 import os
 
-os.sys.path.append("../../base")
+# 获取当前执行该文件的脚本的相对路径
+dir = os.path.dirname(__file__)
+os.sys.path.append(os.path.join(dir, "../../base"))
 
 from SpiderAction import Action as SpiderAction
 class BaseAction(SpiderAction):

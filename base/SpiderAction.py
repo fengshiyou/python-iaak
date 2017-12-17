@@ -46,6 +46,7 @@ class Action(object):
         self.spider_return_type = return_type
 
     def getHtml(self):
+        self.setSpiderReturnType('html')
         return self.spiderReturn()
 
     def getJson(self):
